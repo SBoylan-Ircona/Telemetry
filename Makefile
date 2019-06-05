@@ -56,16 +56,17 @@ CMAKE_BINARY_DIR = /home/ircadmin/OpenBMC/port/telemetry
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
 
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -77,6 +78,51 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -123,32 +169,32 @@ Telemetry/fast:
 	$(MAKE) -f CMakeFiles/Telemetry.dir/build.make CMakeFiles/Telemetry.dir/build
 .PHONY : Telemetry/fast
 
-telemetry.o: telemetry.cpp.o
+src/telemetry.o: src/telemetry.cpp.o
 
-.PHONY : telemetry.o
+.PHONY : src/telemetry.o
 
 # target to build an object file
-telemetry.cpp.o:
-	$(MAKE) -f CMakeFiles/Telemetry.dir/build.make CMakeFiles/Telemetry.dir/telemetry.cpp.o
-.PHONY : telemetry.cpp.o
+src/telemetry.cpp.o:
+	$(MAKE) -f CMakeFiles/Telemetry.dir/build.make CMakeFiles/Telemetry.dir/src/telemetry.cpp.o
+.PHONY : src/telemetry.cpp.o
 
-telemetry.i: telemetry.cpp.i
+src/telemetry.i: src/telemetry.cpp.i
 
-.PHONY : telemetry.i
+.PHONY : src/telemetry.i
 
 # target to preprocess a source file
-telemetry.cpp.i:
-	$(MAKE) -f CMakeFiles/Telemetry.dir/build.make CMakeFiles/Telemetry.dir/telemetry.cpp.i
-.PHONY : telemetry.cpp.i
+src/telemetry.cpp.i:
+	$(MAKE) -f CMakeFiles/Telemetry.dir/build.make CMakeFiles/Telemetry.dir/src/telemetry.cpp.i
+.PHONY : src/telemetry.cpp.i
 
-telemetry.s: telemetry.cpp.s
+src/telemetry.s: src/telemetry.cpp.s
 
-.PHONY : telemetry.s
+.PHONY : src/telemetry.s
 
 # target to generate assembly for a file
-telemetry.cpp.s:
-	$(MAKE) -f CMakeFiles/Telemetry.dir/build.make CMakeFiles/Telemetry.dir/telemetry.cpp.s
-.PHONY : telemetry.cpp.s
+src/telemetry.cpp.s:
+	$(MAKE) -f CMakeFiles/Telemetry.dir/build.make CMakeFiles/Telemetry.dir/src/telemetry.cpp.s
+.PHONY : src/telemetry.cpp.s
 
 # Help Target
 help:
@@ -156,12 +202,16 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
-	@echo "... Telemetry"
+	@echo "... install/strip"
 	@echo "... edit_cache"
-	@echo "... telemetry.o"
-	@echo "... telemetry.i"
-	@echo "... telemetry.s"
+	@echo "... rebuild_cache"
+	@echo "... list_install_components"
+	@echo "... install/local"
+	@echo "... Telemetry"
+	@echo "... install"
+	@echo "... src/telemetry.o"
+	@echo "... src/telemetry.i"
+	@echo "... src/telemetry.s"
 .PHONY : help
 
 
