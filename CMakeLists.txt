@@ -10,6 +10,7 @@ set (Telemetry_VERSION_MAJOR 1)
 set (Telemetry_VERSION_Minor 0)
 include(GNUInstallDirs)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 
 set(SRC_FILES src/telemetry.cpp
 )
