@@ -28,8 +28,8 @@ int main(int argc, char **argv)
         cout << "Syspath: " << syspath << "\n";
         //now that the syspath has been provided, we need to get the path through findHwmonFromOFPath(path)
         //for this we need to include phosphor-hwmon
-        path = sysfs::findHwmonFromOFPath(path);
-        cout << "path: " << path << "\n";
+        //path = sysfs::findHwmonFromOFPath(path);
+        //cout << "path: " << path << "\n";
     }
     std::string s1 = "/sys/devices/platform/ahb/ahb:apb/ahb:apb:bus@1e78a000/1e78a300.i2c-bus/i2c-7/7-004d";
     std::string s2 = "/ahb/apb/bus@1e78a000/i2c-bus@300/lm75@4d";
